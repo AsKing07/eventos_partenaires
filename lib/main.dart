@@ -7,11 +7,17 @@ import 'package:eventos_partenaires/pages/HomePage.dart';
 import 'package:eventos_partenaires/pages/loginui.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
+  );
+  await FirebaseAppCheck.instance.activate(
+    webProvider: ReCaptchaV3Provider('recaptcha-v3-site-key'),
+    androidProvider: AndroidProvider.debug,
+    appleProvider: AppleProvider.appAttest,
   );
   AndroidGoogleMapsFlutter.useAndroidViewSurface = true;
   SharedPreferences prefs = await SharedPreferences.getInstance();

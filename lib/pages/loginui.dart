@@ -21,7 +21,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final controllPhone = TextEditingController(text: '+229');
+  final controllPhone = TextEditingController();
   final controllName = TextEditingController();
   bool _autoValidate = false;
   late String _phone;
@@ -242,34 +242,36 @@ class _LoginState extends State<Login> {
               },
               text: "Se connecter avec Google",
             ),
-            SizedBox(height: height / 50),
-            OutlinedButton(
-              style: OutlinedButton.styleFrom(
-                foregroundColor: AppColors.primary,
-                side: BorderSide(color: AppColors.primary, width: 2.0),
-                disabledForegroundColor: AppColors.tertiary.withOpacity(0.38),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                        30.0)), // Couleur lors de la pression
-              ),
-              onPressed: () {
-                MobileLogin();
-              },
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  const Icon(Icons.phone),
-                  Text(
-                    "Avec un numéro de téléphone",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.primary,
-                      fontSize: 20,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            //Décommenter pour activer la connection avec un numéro de téléphone
+            //Mais un problème avec Firebase OTP non encore résolu
+            // SizedBox(height: height / 50),
+            // OutlinedButton(
+            //   style: OutlinedButton.styleFrom(
+            //     foregroundColor: AppColors.primary,
+            //     side: BorderSide(color: AppColors.primary, width: 2.0),
+            //     disabledForegroundColor: AppColors.tertiary.withOpacity(0.38),
+            //     shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(
+            //             30.0)), // Couleur lors de la pression
+            //   ),
+            //   onPressed: () {
+            //     MobileLogin();
+            //   },
+            //   child: Row(
+            //     mainAxisSize: MainAxisSize.min,
+            //     children: <Widget>[
+            //       const Icon(Icons.phone),
+            //       Text(
+            //         "Avec un numéro de téléphone",
+            //         style: TextStyle(
+            //           fontWeight: FontWeight.bold,
+            //           color: AppColors.primary,
+            //           fontSize: 20,
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
             const SizedBox(height: 10),
           ],
         ),
