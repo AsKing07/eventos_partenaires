@@ -1,6 +1,9 @@
 # eventos_partenaires
 
-A new Flutter project.
+EventOs Partenaire, l'application pour les organisateurs d'évènements
+Réalisé avec Flutter et utilisant l'api de KKiapay comme moyen de Payement.
+
+L'application EventOs User permet d'acheter des tickets pour les évènements et est disponible sur son propre dépot
 
 ## Getting Started
 
