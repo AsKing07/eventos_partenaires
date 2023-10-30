@@ -60,11 +60,11 @@ class _TeamPageState extends State<TeamPage> {
         .get();
     final y = await FirebaseFirestore.instance
         .collection('users')
-        .where('phoneNumber', isEqualTo: user.toLowerCase())
+        .where('email', isEqualTo: user.toLowerCase())
         .get();
     if (i['email'] == user || i['phoneNumber'] == user) {
       Fluttertoast.showToast(
-          msg: 'Vous ne pouvez pas vous ajouter à l\'équipe',
+          msg: 'Vous ne pouvez pas vous ajouter vous même à l\'équipe',
           textColor: Colors.white,
           toastLength: Toast.LENGTH_SHORT,
           backgroundColor: Colors.red,
@@ -72,7 +72,7 @@ class _TeamPageState extends State<TeamPage> {
     } else if (x.docs.isEmpty && y.docs.isEmpty) {
       Fluttertoast.showToast(
           msg:
-              'Aucun utilisateur trouvé, essayez d\'utiliser une autre adresse e-mail ou un autre numéro de téléphone',
+              'Aucun utilisateur trouvé, essayez d\'utiliser une autre adresse e-mail',
           textColor: Colors.white,
           toastLength: Toast.LENGTH_SHORT,
           backgroundColor: Colors.red,
@@ -437,11 +437,11 @@ class _TeamPageState extends State<TeamPage> {
                                                                   .circular(
                                                                       10)),
                                                   hintText:
-                                                      'Email/numéro de téléphone du membre de l\'équipe',
+                                                      'Email du membre de l\'équipe',
                                                   fillColor: AppColors.primary,
                                                   focusColor: AppColors.primary,
                                                   helperText:
-                                                      'Saisissez le numéro de téléphone, y compris l\'indicatif du pays',
+                                                      'Saisissez l\'email du membre concerné',
                                                   hintStyle: const TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 16,

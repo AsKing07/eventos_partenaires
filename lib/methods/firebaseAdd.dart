@@ -6,19 +6,18 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventos_partenaires/methods/getUserId.dart';
 import '../globals.dart' as globals;
-import 'package:geoflutterfire2/geoflutterfire2.dart';
 import 'package:random_string/random_string.dart';
 
 class FirebaseAdd {
   addUser(
       String name, String email, String phoneNumber, String uid, bool isBenin) {
-    FirebaseFirestore.instance.collection('users').doc(uid).update({
+    FirebaseFirestore.instance.collection('users').doc(uid).set({
       'name': name,
       'email': email,
       'phoneNumber': phoneNumber,
       'uid': uid,
       'isBenin': isBenin
-    });
+    }, SetOptions(merge: true));
   }
 
   addEvent(
