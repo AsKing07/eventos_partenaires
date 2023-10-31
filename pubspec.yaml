@@ -80,6 +80,8 @@ dependencies:
   flutter_config: ^2.0.2
   flutter_open_street_map: ^0.0.4
   country_state_city_picker: ^1.2.8
+  connectivity_checker: ^1.1.0
+
   
   
 

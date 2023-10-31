@@ -169,6 +169,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.0"
+  connectivity_checker:
+    dependency: "direct main"
+    description:
+      name: connectivity_checker
+      sha256: "65f823e5f8f24316f027367312e44d9ecc87f416d111fbd881ff3ade196d3fb3"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   convert:
     dependency: transitive
     description:
