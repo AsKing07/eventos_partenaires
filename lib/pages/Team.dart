@@ -299,9 +299,8 @@ class _TeamPageState extends State<TeamPage> {
                                                 BorderRadius.circular(10),
                                           ),
                                           hintText:
-                                              'Email/Numéro de téléphone du membre de l\'équipe',
-                                          helperText:
-                                              'Entrez le numéro de téléphone avec le code pays',
+                                              'Email du membre de l\'équipe',
+                                          helperText: 'Entrez l\'email',
                                           fillColor: AppColors.primary,
                                           focusColor: AppColors.primary,
                                           hintStyle: const TextStyle(

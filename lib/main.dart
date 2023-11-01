@@ -42,7 +42,6 @@ Future<bool> checkInternetConnection() async {
   if (isConnected) {
     return true;
   } else {
-    // Pas de connexion Internet, vous pouvez afficher un écran d'erreur ou un message à l'utilisateur.
     return false;
   }
 }

@@ -2,12 +2,14 @@
 
 import 'package:eventos_partenaires/pages/AboutUs.dart';
 import 'package:eventos_partenaires/pages/Policy.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart' hide DatePickerTheme;
 import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:flutter_icons/flutter_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:getwidget/getwidget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:eventos_partenaires/pages/createEvent.dart';
 import 'package:eventos_partenaires/pages/loginui.dart';
@@ -19,6 +21,7 @@ import 'package:eventos_partenaires/config/config.dart';
 import 'package:eventos_partenaires/config/size.dart';
 
 import 'package:skeleton_text/skeleton_text.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -82,9 +85,17 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    User? user = FirebaseAuth.instance.currentUser;
+
     double height = SizeConfig.getHeight(context);
     double width = SizeConfig.getWidth(context);
+    const String photUrl =
+        "https://cdn.pixabay.com/photo/2017/12/03/18/04/christmas-balls-2995437_960_720.jpg";
+    String photoURL = user!.photoURL ?? photUrl;
     return Scaffold(
+        appBar: AppBar(
+          backgroundColor: AppColors.primary,
+        ),
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: AppColors.primary,
           items: const <BottomNavigationBarItem>[
@@ -114,6 +125,67 @@ class _HomePageState extends State<HomePage> {
           ),
           icon: const Icon(Icons.add),
         ),
+        drawer: GFDrawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              GFDrawerHeader(
+                currentAccountPicture: GFAvatar(
+                  radius: 80.0,
+                  backgroundImage: NetworkImage(photoURL),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(user.displayName ?? ""),
+                    Text(user.email ?? " "),
+                  ],
+                ),
+              ),
+              ListTile(
+                leading: const Icon(Icons.event, color: Colors.black),
+                title: const Text('Participer à des évènements'),
+                onTap: () {
+                  //           //lien de l'application pour EventOs User
+
+                  launchUrl(
+                      Uri.https('play.google.com/store/apps/details?id='));
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.policy, color: Colors.black),
+                title: const Text('Politiques de Confidentialité'),
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => PrivacyPolicy()));
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.people, color: Colors.black),
+                title: const Text('A Propos de l\'Application'),
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => AboutUs()));
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.logout, color: Colors.black),
+                title: const Text('Se Déconnecter'),
+                onTap: () async {
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  prefs.clear();
+                  signOut();
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => Login()),
+                      ModalRoute.withName('homepage'));
+                },
+              ),
+            ],
+          ),
+        ),
         body: Column(
           children: [
             Container(
@@ -127,80 +199,6 @@ class _HomePageState extends State<HomePage> {
                     'assets/logo.png',
                     width: 60,
                   ),
-                  PopupMenuButton(
-                    icon: Icon(Icons.more_horiz,
-                        color: AppColors.primary, size: 30),
-                    color: AppColors.primary,
-                    itemBuilder: (context) {
-                      var liste = <PopupMenuEntry<Object>>[];
-                      liste.add(
-                        PopupMenuItem(
-                          child: Text(
-                            "Profil",
-                            style: TextStyle(color: AppColors.tertiary),
-                          ),
-                        ),
-                      );
-                      liste.add(
-                        const PopupMenuDivider(
-                          height: 4,
-                        ),
-                      );
-                      liste.add(
-                        PopupMenuItem(
-                          value: 2,
-                          child: Text(
-                            "Déconnexion",
-                            style: TextStyle(color: AppColors.tertiary),
-                          ),
-                        ),
-                      );
-                      liste.add(
-                        PopupMenuItem(
-                          value: 3,
-                          child: Text(
-                            "A Propos de Nous",
-                            style: TextStyle(color: AppColors.tertiary),
-                          ),
-                        ),
-                      );
-                      liste.add(
-                        PopupMenuItem(
-                          value: 4,
-                          child: Text(
-                            "Politiques de Confidentialité",
-                            style: TextStyle(color: AppColors.tertiary),
-                          ),
-                        ),
-                      );
-                      return liste;
-                    },
-                    onSelected: (value) async {
-                      if (value == 2) {
-                        SharedPreferences prefs =
-                            await SharedPreferences.getInstance();
-                        prefs.clear();
-                        signOut();
-                        Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(builder: (context) => Login()),
-                            ModalRoute.withName('homepage'));
-                      }
-                      if (value == 3) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => AboutUs()),
-                        );
-                      }
-                      if (value == 4) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PrivacyPolicy()),
-                        );
-                      }
-                    },
-                  )
                 ],
               ),
             ),

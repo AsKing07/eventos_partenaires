@@ -375,7 +375,7 @@ class _DetailPageState extends State<DetailPage> {
                           children: [
                             Expanded(
                                 child: Text(
-                              'Event Code: ${widget.post['eventCode']}',
+                              'Code Even: ${widget.post['eventCode']}',
                               style: GoogleFonts.varelaRound(
                                   textStyle: const TextStyle(
                                       color: Colors.red,
