@@ -115,20 +115,66 @@ class NotConnectedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Connectez-vous'),
-      ),
-      body: const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Vous n'êtes pas connecté à Internet. Une fois connectée, veuillez redémarrer l'application!",
-              style: TextStyle(fontSize: 18),
+      body: Stack(
+        children: [
+          Image.asset(
+            'assets/Connection_Lost.png',
+            fit: BoxFit.cover,
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+          ),
+          const Positioned(
+            bottom: 200,
+            left: 30,
+            child: Text('Pas de Connexion',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 25,
+                  letterSpacing: 1,
+                  fontWeight: FontWeight.w500,
+                )),
+          ),
+          const Positioned(
+            bottom: 150,
+            left: 30,
+            child: Text(
+              'S\'il vous plaît, vérifiez votre connexion internet \net réessayer.',
+              style: TextStyle(
+                color: Colors.black38,
+                fontSize: 16,
+                letterSpacing: 1,
+                fontWeight: FontWeight.w500,
+              ),
+              textAlign: TextAlign.start,
             ),
-            SizedBox(height: 20),
-          ],
-        ),
+          ),
+          Positioned(
+              bottom: 50,
+              left: 40,
+              right: 40,
+              child: InkWell(
+                onTap: () {
+                  main();
+                },
+                child: Container(
+                  height: 40,
+                  width: MediaQuery.of(context).size.width / 2,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color: Colors.blue[800]!,
+                  ),
+                  child: Center(
+                      child: Text(
+                    'Réessayer'.toUpperCase(),
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  )),
+                ),
+              )),
+        ],
       ),
     );
   }
