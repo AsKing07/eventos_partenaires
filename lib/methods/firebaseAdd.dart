@@ -39,8 +39,6 @@ class FirebaseAdd {
     double ticketPrice,
     String? partner,
     String number,
-    String? amountEarn,
-    String? amountPaid,
   ) async {
     String uid = await getCurrentUid();
     String _uploadedFileURL;
@@ -106,8 +104,8 @@ class FirebaseAdd {
         'hostName': hostName,
         'hostEmail': hostEmail,
         'hostPhoneNumber': hostPhone,
-        'amountEarned': amountEarn,
-        'amount_to_be_paid': amountPaid,
+        'amountEarned': 0,
+        'amount_to_be_paid': 0,
         'ticketPrice': ticketPrice,
         'eventCategory': eventCategory,
         'helper': i,
@@ -135,8 +133,8 @@ class FirebaseAdd {
         'hostName': hostName,
         'hostEmail': hostEmail,
         'hostPhoneNumber': hostPhone,
-        'amountEarned': amountEarn,
-        'amount_to_be_paid': amountPaid,
+        'amountEarned': 0,
+        'amount_to_be_paid': 0,
         'ticketPrice': ticketPrice,
         'eventCategory': eventCategory,
         'helper': i,

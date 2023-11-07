@@ -525,31 +525,6 @@ class _CreateEventState extends State<CreateEvent> {
                             number.countryISOCode!);
                       },
                     ),
-                    // FormField(
-                    //   builder: (context) => InternationalPhoneNumberInput(
-                    //     //border: OutlineInputBorder(borderSide: BorderSide(color:AppColors.primary,width:2,style:BorderStyle.solid)),
-                    //     initialValue:
-                    //         PhoneNumber(isoCode: 'BJ', phoneNumber: _phone),
-                    //     onInputChanged: (PhoneNumber number) {
-                    //       _inputChange(number.phoneNumber ?? '', number,
-                    //           number.isoCode!);
-                    //     },
-                    //     selectorConfig: const SelectorConfig(
-                    //       selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
-                    //     ),
-                    //     autoValidateMode: AutovalidateMode.disabled,
-                    //     selectorTextStyle: TextStyle(color: AppColors.primary),
-                    //     inputBorder: OutlineInputBorder(
-                    //         borderRadius: BorderRadius.circular(5),
-                    //         borderSide: BorderSide(
-                    //             color: AppColors.primary, width: 1.5)),
-                    //     hintText: 'Numéro de téléphone',
-                    //     textStyle: GoogleFonts.cabin(
-                    //         fontWeight: FontWeight.w800,
-                    //         fontSize: 20,
-                    //         color: AppColors.primary),
-                    //   ),
-                    // ),
                     const SizedBox(height: 10),
                     const Divider(thickness: 1),
                     const SizedBox(height: 8),
@@ -1108,26 +1083,25 @@ class _TicketInfoState extends State<TicketInfo> {
           imageFile = File(widget.image!.path);
         }
         await FirebaseAdd().addEvent(
-            widget.eventName!,
-            widget.eventCode!,
-            widget.eventDescription!,
-            widget.eventAddress!,
-            ticketCount,
-            imageFile!,
-            widget.eventDateTime!,
-            widget.location!,
-            widget.hostName!,
-            widget.hostEmail!,
-            widget.hostPhoneNumber!,
-            widget.eventCategory!,
-            widget.isOnline!,
-            isPaid,
-            isProtected,
-            ticketPrice,
-            passcodeController.text,
-            numberController.text,
-            (ticketCount * ticketPrice).toString(),
-            ((ticketPrice * ticketCount) * 98 / 100).toString());
+          widget.eventName!,
+          widget.eventCode!,
+          widget.eventDescription!,
+          widget.eventAddress!,
+          ticketCount,
+          imageFile!,
+          widget.eventDateTime!,
+          widget.location!,
+          widget.hostName!,
+          widget.hostEmail!,
+          widget.hostPhoneNumber!,
+          widget.eventCategory!,
+          widget.isOnline!,
+          isPaid,
+          isProtected,
+          ticketPrice,
+          passcodeController.text,
+          numberController.text,
+        );
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           return CongoScreen(widget.eventName!, widget.eventCode!,
               widget.eventAddress!, widget.image!, widget.eventDateTime!);
@@ -1141,26 +1115,25 @@ class _TicketInfoState extends State<TicketInfo> {
       }
 
       await FirebaseAdd().addEvent(
-          widget.eventName!,
-          widget.eventCode!,
-          widget.eventDescription!,
-          widget.eventAddress!,
-          ticketCount,
-          imageFile!,
-          widget.eventDateTime!,
-          widget.location,
-          widget.hostName!,
-          widget.hostEmail!,
-          widget.hostPhoneNumber!,
-          widget.eventCategory!,
-          widget.isOnline!,
-          isPaid,
-          isProtected,
-          ticketPrice,
-          null,
-          numberController.text,
-          (ticketCount * ticketPrice).toString(),
-          ((ticketPrice * ticketCount) * 98 / 100).toString());
+        widget.eventName!,
+        widget.eventCode!,
+        widget.eventDescription!,
+        widget.eventAddress!,
+        ticketCount,
+        imageFile!,
+        widget.eventDateTime!,
+        widget.location,
+        widget.hostName!,
+        widget.hostEmail!,
+        widget.hostPhoneNumber!,
+        widget.eventCategory!,
+        widget.isOnline!,
+        isPaid,
+        isProtected,
+        ticketPrice,
+        null,
+        numberController.text,
+      );
 
       Navigator.push(context, MaterialPageRoute(builder: (context) {
         return CongoScreen(widget.eventName!, widget.eventCode!,

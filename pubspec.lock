@@ -491,6 +491,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.0.0"
+  flutter_native_splash:
+    dependency: "direct main"
+    description:
+      name: flutter_native_splash
+      sha256: d93394f22f73e810bda59e11ebe83329c5511d6460b6b7509c4e1f3c92d6d625
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.5"
   flutter_open_street_map:
     dependency: "direct main"
     description:
