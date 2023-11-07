@@ -3,34 +3,28 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:flutter/material.dart' hide DatePickerTheme;
-// import 'package:flutter_icons/flutter_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as maps;
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-// import 'package:international_phone_input/international_phone_input.dart';
-import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+// import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:eventos_partenaires/pages/HomePage.dart';
 import 'package:eventos_partenaires/methods/firebaseAdd.dart';
+import 'package:intl_phone_field/phone_number.dart';
 import 'package:random_string/random_string.dart';
 import 'package:eventos_partenaires/Widgets/clipper.dart';
 import 'package:eventos_partenaires/config/config.dart';
 import 'package:eventos_partenaires/config/size.dart';
-
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter_share/flutter_share.dart';
-// import 'package:place_picker/place_picker.dart' as latlng;
 import 'package:geoflutterfire2/geoflutterfire2.dart';
-import 'package:google_maps_place_picker_mb/google_maps_place_picker.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_cropper/image_cropper.dart';
-import 'package:flutter_open_street_map/open_street_map.dart';
 import 'package:country_state_city_picker/country_state_city_picker.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 class CreateEvent extends StatefulWidget {
   final String uid;
@@ -206,8 +200,8 @@ class _CreateEventState extends State<CreateEvent> {
     setState(() {
       isoCode = isoCode;
       _phone = number;
-      if (internationlizedPhoneNumber.phoneNumber != null) {
-        hostPhoneNumber = internationlizedPhoneNumber.phoneNumber!;
+      if (internationlizedPhoneNumber.completeNumber != null) {
+        hostPhoneNumber = internationlizedPhoneNumber.completeNumber!;
       }
     });
   }
@@ -220,8 +214,8 @@ class _CreateEventState extends State<CreateEvent> {
     } else {
       setState(() {
         isOnline = true;
-        localisation = "";
-        eventAddress = "";
+        // localisation = "";
+        // eventAddress = "";
       });
     }
 
@@ -230,31 +224,34 @@ class _CreateEventState extends State<CreateEvent> {
 
   void _validateInputs() {
     if (_formKey.currentState!.validate()) {
-      if (countryValue.isEmpty) {
-        Fluttertoast.showToast(
-            msg: 'Veuillez sélectionner un pays :( ',
-            backgroundColor: Colors.red,
-            fontSize: 18,
-            textColor: Colors.white,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.TOP);
-      } else if (stateValue.isEmpty) {
-        Fluttertoast.showToast(
-            msg: 'Veuillez sélectionner un département:( ',
-            backgroundColor: Colors.red,
-            fontSize: 18,
-            textColor: Colors.white,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.TOP);
-      } else if (cityValue.isEmpty) {
-        Fluttertoast.showToast(
-            msg: 'Veuillez sélectionner une ville :( ',
-            backgroundColor: Colors.red,
-            fontSize: 18,
-            textColor: Colors.white,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.TOP);
-      } else if (hostPhoneNumber == null) {
+      if (!isOnline) {
+        if (countryValue.isEmpty) {
+          Fluttertoast.showToast(
+              msg: 'Veuillez sélectionner un pays :( ',
+              backgroundColor: Colors.red,
+              fontSize: 18,
+              textColor: Colors.white,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.TOP);
+        } else if (stateValue.isEmpty) {
+          Fluttertoast.showToast(
+              msg: 'Veuillez sélectionner un département:( ',
+              backgroundColor: Colors.red,
+              fontSize: 18,
+              textColor: Colors.white,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.TOP);
+        } else if (cityValue.isEmpty) {
+          Fluttertoast.showToast(
+              msg: 'Veuillez sélectionner une ville :( ',
+              backgroundColor: Colors.red,
+              fontSize: 18,
+              textColor: Colors.white,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.TOP);
+        }
+      }
+      if (hostPhoneNumber == null) {
         Fluttertoast.showToast(
             msg: 'Numéro de téléphone non valide :( ',
             backgroundColor: Colors.red,
@@ -320,46 +317,6 @@ class _CreateEventState extends State<CreateEvent> {
     print(localisation);
   }
 
-  // void showPlacePicker() async {
-  //   Navigator.push(
-  //     context,
-  //     MaterialPageRoute(
-  //       builder: (context) => PlacePicker(
-  //         apiKey: Platform.isAndroid
-  //             ? 'AIzaSyDMQXRp4mmMw9kx4E_YOVChFyInWdgsKXU' // Votre clé API pour Android
-  //             : "AIzaSyDYKfjtKoVpCTlwiT29ioqflI62gzclKOQ", // Votre clé API pour iOS
-  //         hintText: "Trouver un lieu ...",
-  //         searchingText: "Veuillez patienter ...",
-  //         selectText: "Selectionnez un lieu",
-  //         useCurrentLocation: true,
-  //         selectInitialPosition: true,
-  //         usePlaceDetailSearch: true,
-  //         usePinPointingSearch: true,
-  //         onMapTypeChanged: (MapType mapType) {
-  //           print("Map type changed to ${mapType.toString()}");
-  //         },
-  //         onPlacePicked: (result) {
-  //           setState(() {
-  //             mainResult = result;
-  //             eventAddController.text = mainResult!.formattedAddress!;
-  //             myLocation = geo.point(
-  //                 latitude: result.geometry!.location.lat,
-  //                 longitude: result.geometry!.location.lng);
-  //           });
-  //           Navigator.of(context).pop();
-  //         },
-  //         initialPosition: const maps.LatLng(2.4144192, 6.3752311),
-  //       ),
-  //     ),
-  //   ).then((value) async {
-  //     final maps.GoogleMapController controller = await _controller.future;
-  //     controller.animateCamera(maps.CameraUpdate.newCameraPosition(
-  //         maps.CameraPosition(
-  //             target: maps.LatLng(myLocation!.latitude, myLocation!.longitude),
-  //             zoom: 15.4746)));
-  //   });
-  // }
-
   Future<Null> _selectDate(BuildContext context) async {
     final DateTime? picked = await DatePicker.showDateTimePicker(context,
         showTitleActions: true,
@@ -370,14 +327,14 @@ class _CreateEventState extends State<CreateEvent> {
       setState(() {
         dateTime = picked;
         dateTimeController.text =
-            DateFormat('dd-MM-yyyy  hh:mm a').format(dateTime!);
+            DateFormat('dd-MM-yyyy  hh:mm').format(dateTime!);
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    double height = SizeConfig.getHeight(context);
+    // double height = SizeConfig.getHeight(context);
     double width = SizeConfig.getWidth(context);
     return Scaffold(
       appBar: AppBar(
@@ -554,31 +511,45 @@ class _CreateEventState extends State<CreateEvent> {
                       },
                     ),
                     const SizedBox(height: 20),
-                    FormField(
-                      builder: (context) => InternationalPhoneNumberInput(
-                        //border: OutlineInputBorder(borderSide: BorderSide(color:AppColors.primary,width:2,style:BorderStyle.solid)),
-                        initialValue:
-                            PhoneNumber(isoCode: 'BJ', phoneNumber: _phone),
-                        onInputChanged: (PhoneNumber number) {
-                          _inputChange(number.phoneNumber ?? '', number,
-                              number.isoCode!);
-                        },
-                        selectorConfig: const SelectorConfig(
-                          selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                    IntlPhoneField(
+                      focusNode: FocusNode(),
+                      decoration: const InputDecoration(
+                        labelText: 'Numéro de téléphone',
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(),
                         ),
-                        autoValidateMode: AutovalidateMode.disabled,
-                        selectorTextStyle: TextStyle(color: AppColors.primary),
-                        inputBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5),
-                            borderSide: BorderSide(
-                                color: AppColors.primary, width: 1.5)),
-                        hintText: 'Numéro de téléphone',
-                        textStyle: GoogleFonts.cabin(
-                            fontWeight: FontWeight.w800,
-                            fontSize: 20,
-                            color: AppColors.primary),
                       ),
+                      languageCode: "fr",
+                      onChanged: (number) {
+                        _inputChange(number.number ?? '', number,
+                            number.countryISOCode!);
+                      },
                     ),
+                    // FormField(
+                    //   builder: (context) => InternationalPhoneNumberInput(
+                    //     //border: OutlineInputBorder(borderSide: BorderSide(color:AppColors.primary,width:2,style:BorderStyle.solid)),
+                    //     initialValue:
+                    //         PhoneNumber(isoCode: 'BJ', phoneNumber: _phone),
+                    //     onInputChanged: (PhoneNumber number) {
+                    //       _inputChange(number.phoneNumber ?? '', number,
+                    //           number.isoCode!);
+                    //     },
+                    //     selectorConfig: const SelectorConfig(
+                    //       selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                    //     ),
+                    //     autoValidateMode: AutovalidateMode.disabled,
+                    //     selectorTextStyle: TextStyle(color: AppColors.primary),
+                    //     inputBorder: OutlineInputBorder(
+                    //         borderRadius: BorderRadius.circular(5),
+                    //         borderSide: BorderSide(
+                    //             color: AppColors.primary, width: 1.5)),
+                    //     hintText: 'Numéro de téléphone',
+                    //     textStyle: GoogleFonts.cabin(
+                    //         fontWeight: FontWeight.w800,
+                    //         fontSize: 20,
+                    //         color: AppColors.primary),
+                    //   ),
+                    // ),
                     const SizedBox(height: 10),
                     const Divider(thickness: 1),
                     const SizedBox(height: 8),
@@ -662,35 +633,7 @@ class _CreateEventState extends State<CreateEvent> {
                     ),
                     const SizedBox(height: 20),
                     !isOnline
-                        ?
-                        //  ElevatedButton(
-                        //     onPressed: () => showPlacePicker(),
-                        //     style: ElevatedButton.styleFrom(
-                        //       foregroundColor: Colors.white,
-                        //       backgroundColor: AppColors.primary,
-                        //       elevation: 3,
-                        //       disabledForegroundColor:
-                        //           Colors.white.withOpacity(0.38),
-                        //       disabledBackgroundColor:
-                        //           Colors.white.withOpacity(0.12),
-                        //     ),
-                        //     child: Row(
-                        //       mainAxisSize: MainAxisSize.min,
-                        //       children: [
-                        //         Icon(FontAwesomeIcons.locationArrow,
-                        //             color: AppColors.secondary),
-                        //         const SizedBox(width: 5),
-                        //         Text(
-                        //           'Localiser sur la carte',
-                        //           style: GoogleFonts.cabin(
-                        //             fontWeight: FontWeight.w800,
-                        //             fontSize: 20,
-                        //           ),
-                        //         ),
-                        //       ],
-                        //     ),
-                        //   )
-                        Container(
+                        ? Container(
                             child: Column(
                               children: [
                                 SelectState(
@@ -720,65 +663,6 @@ class _CreateEventState extends State<CreateEvent> {
                               ],
                             ),
                           )
-                        // : !isOnline && mainResult != null
-                        //     ? Container(
-                        //         height: 200,
-                        //         child: Column(
-                        //           children: [
-                        //             Expanded(
-                        //               child: maps.GoogleMap(
-                        //                 onMapCreated: (maps.GoogleMapController
-                        //                     controller) {
-                        //                   _controller.complete(controller);
-                        //                 },
-                        //                 markers: {
-                        //                   maps.Marker(
-                        //                     markerId:
-                        //                         const maps.MarkerId('marker'),
-                        //                     position: maps.LatLng(
-                        //                         myLocation!.latitude,
-                        //                         myLocation!.longitude),
-                        //                   )
-                        //                 },
-                        //                 initialCameraPosition:
-                        //                     maps.CameraPosition(
-                        //                         target: maps.LatLng(
-                        //                             myLocation!.latitude,
-                        //                             myLocation!.longitude),
-                        //                         zoom: 15.4746),
-                        //                 mapType: maps.MapType.normal,
-                        //               ),
-                        //             ),
-                        //             Container(
-                        //               width: double.infinity,
-                        //               child: ElevatedButton(
-                        //                 style: ElevatedButton.styleFrom(
-                        //                   foregroundColor: Colors.white,
-                        //                   backgroundColor: AppColors.primary,
-                        //                   disabledForegroundColor: AppColors
-                        //                       .tertiary
-                        //                       .withOpacity(0.38),
-                        //                   disabledBackgroundColor:
-                        //                       AppColors.tertiary.withOpacity(
-                        //                           0.12), // Couleur au survol
-                        //                 ),
-                        //                 onPressed: () {
-                        //                   showPlacePicker();
-                        //                 },
-                        //                 child: const Row(
-                        //                   mainAxisSize: MainAxisSize.min,
-                        //                   children: [
-                        //                     Icon(
-                        //                       FontAwesomeIcons.edit,
-                        //                       color: Colors.white,
-                        //                     ),
-                        //                   ],
-                        //                 ),
-                        //               ),
-                        //             )
-                        //           ],
-                        //         ),
-                        //       )
                         : Text(
                             'Aucun emplacement n\'est requis dans les événements en ligne, vous pouvez partager le lien de diffusion/rejoindre en utilisant la fonction d\'annonce',
                             style: GoogleFonts.mavenPro(
@@ -1243,7 +1127,7 @@ class _TicketInfoState extends State<TicketInfo> {
             passcodeController.text,
             numberController.text,
             (ticketCount * ticketPrice).toString(),
-            ((ticketPrice * ticketCount) * 92 / 100).toString());
+            ((ticketPrice * ticketCount) * 98 / 100).toString());
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           return CongoScreen(widget.eventName!, widget.eventCode!,
               widget.eventAddress!, widget.image!, widget.eventDateTime!);
@@ -1276,7 +1160,7 @@ class _TicketInfoState extends State<TicketInfo> {
           null,
           numberController.text,
           (ticketCount * ticketPrice).toString(),
-          ((ticketPrice * ticketCount) * 92 / 100).toString());
+          ((ticketPrice * ticketCount) * 98 / 100).toString());
 
       Navigator.push(context, MaterialPageRoute(builder: (context) {
         return CongoScreen(widget.eventName!, widget.eventCode!,
@@ -1287,11 +1171,11 @@ class _TicketInfoState extends State<TicketInfo> {
 
   @override
   Widget build(BuildContext context) {
-    double height = SizeConfig.getHeight(context);
+    // double height = SizeConfig.getHeight(context);
     double width = SizeConfig.getWidth(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Ticket Info',
+        title: Text('Infos Ticket',
             style:
                 GoogleFonts.cabin(fontWeight: FontWeight.w600, fontSize: 25)),
         centerTitle: true,
@@ -1302,7 +1186,7 @@ class _TicketInfoState extends State<TicketInfo> {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(top: 20.0),
-              child: Text('Ticket Info',
+              child: Text('Info Ticket',
                   style: GoogleFonts.cabin(
                     fontWeight: FontWeight.w800,
                     fontSize: 34,
@@ -1513,7 +1397,7 @@ class _TicketInfoState extends State<TicketInfo> {
                               const SizedBox(
                                 width: 5,
                               ),
-                              Text('${(ticketPrice * ticketCount) * 92 / 100}',
+                              Text('${(ticketPrice * ticketCount) * 98 / 100}',
                                   style: GoogleFonts.cabin(
                                     fontWeight: FontWeight.w800,
                                     fontSize: 26,
@@ -1527,7 +1411,7 @@ class _TicketInfoState extends State<TicketInfo> {
                   )
                 : Container(),
             isPaid
-                ? Text('(Gain brut - Frais Equipe EventOs 8%)',
+                ? Text('(Gain brut - Frais Equipe EventOs 2%)',
                     style: GoogleFonts.mavenPro(
                       fontWeight: FontWeight.w600,
                       fontSize: 17,
@@ -1551,7 +1435,7 @@ class _TicketInfoState extends State<TicketInfo> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Protection',
+                Text('Rendre l\'évènement privé',
                     style: GoogleFonts.cabin(
                       fontWeight: FontWeight.w800,
                       fontSize: 34,
@@ -1572,7 +1456,8 @@ class _TicketInfoState extends State<TicketInfo> {
                 padding: const EdgeInsets.only(top: 2, bottom: 12),
                 child: isProtected
                     ? Text(
-                        'Seules les personnes possédant un code peuvent acheter ou échanger des pass pour cet événement.',
+                        'Seules les personnes possédant un code peuvent acheter ou échanger des pass pour cet événement.Le code vous sera fournit ultérieurement! ',
+                        softWrap: true,
                         style: GoogleFonts.mavenPro(
                             fontWeight: FontWeight.w500,
                             fontSize: 15,
@@ -1636,7 +1521,7 @@ class _TicketInfoState extends State<TicketInfo> {
                 ? Padding(
                     padding: const EdgeInsets.only(top: 2, bottom: 12),
                     child: Text(
-                        'Entrez votre numéro momo pour recevoir le paiement. Le paiement sera transféré dans les 24 heures suivant la fin de l\'événement. Pour tout autre mode de paiement, contactez votre assistant personnel qui vous sera attribué après la création de l\'événement',
+                        'Entrez votre numéro momo pour recevoir le paiement. Le paiement sera transféré sur ce numéro dès que possible! Pour tout autre mode de paiement, contactez votre assistant personnel qui vous sera attribué après la création de l\'événement',
                         style: GoogleFonts.mavenPro(
                           fontWeight: FontWeight.w500,
                           fontSize: 15,

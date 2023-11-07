@@ -53,146 +53,6 @@ class _DetailPageState extends State<DetailPage> {
     isTeam = x.data()!['isTeam'];
   }
 
-  void showPass() async {
-    late String passCode;
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(widget.uid)
-        .collection('eventJoined')
-        .where('eventCode', isEqualTo: widget.post['eventCode'])
-        .get()
-        .then((value) {
-      passCode = value.docs.elementAt(0).data()['passCode'];
-    });
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return Pass(passCode, widget.post);
-    }));
-  }
-
-  void getPass(BuildContext context, double height) async {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10.0))),
-            scrollable: true,
-            backgroundColor: AppColors.secondary,
-            title: const Center(
-              child: Text(
-                "Obtenir un Pass",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 30),
-              ),
-            ),
-            content: Container(
-              height: height / 5,
-              child: Column(
-                children: [
-                  TextField(
-                    controller: eventCodeController,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: AppColors.primary,
-                        fontSize: 25,
-                        fontWeight: FontWeight.w500),
-                    cursorColor: AppColors.primary,
-                    autofocus: true,
-                    decoration: const InputDecoration(
-                        hintText: "Entrez le code de l'évènement"),
-                  ),
-                  Expanded(
-                    child: Center(
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          final x = await FirebaseFirestore.instance
-                              .collection('users')
-                              .doc(widget.uid)
-                              .collection('eventJoined')
-                              .doc(widget.post['eventCode'])
-                              .get();
-                          if (widget.post['eventCode'] !=
-                              eventCodeController.text) {
-                            Fluttertoast.showToast(
-                                msg: "Code incorrect saisi",
-                                backgroundColor: Colors.red,
-                                textColor: Colors.white);
-                          } else if (widget.post['joined'] >=
-                              widget.post['maxAttendee'])
-                            // ignore: curly_braces_in_flow_control_structures
-                            Fluttertoast.showToast(
-                                msg: "Événement complet",
-                                backgroundColor: Colors.red,
-                                textColor: Colors.white);
-                          else if (x.exists) {
-                            Fluttertoast.showToast(
-                                msg: "Déjà inscrit à l'événement",
-                                backgroundColor: Colors.red,
-                                textColor: Colors.white);
-                          } else {
-                            passCode = randomAlphaNumeric(6);
-                            User user;
-                            final userDoc = await FirebaseFirestore.instance
-                                .collection('users')
-                                .doc(widget.uid)
-                                .get();
-                            user = User.fromDocument(userDoc);
-                            FirebaseFirestore.instance
-                                .collection("events")
-                                .doc(widget.post['eventCode'])
-                                .collection('guests')
-                                .doc(passCode)
-                                .set({
-                              'user': user.uid,
-                              'phone': user.phone,
-                              'email': user.email,
-                              'name': user.name,
-                              'passCode': passCode,
-                              'Scanned': false
-                            });
-                            FirebaseFirestore.instance
-                                .collection('users')
-                                .doc(widget.uid)
-                                .collection('eventJoined')
-                                .doc(widget.post['eventCode'])
-                                .set({
-                              'eventCode': widget.post['eventCode'],
-                              'passCode': passCode
-                            });
-                            FirebaseFirestore.instance
-                                .collection('events')
-                                .doc(widget.post['eventCode'])
-                                .update({'joined': widget.post['joined'] + 1});
-                            Navigator.pop(context);
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return Pass(passCode, widget.post);
-                            }));
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.tertiary,
-                          elevation: 10,
-                        ),
-                        child: Text("Obtenir un Pass",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 20,
-                                color: AppColors.primary)),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          );
-        }).then((value) {
-      eventCodeController.clear();
-    });
-  }
-
   @override
   void initState() {
     super.initState();
@@ -399,7 +259,8 @@ class _DetailPageState extends State<DetailPage> {
                                               widget.post, widget.rebuild)));
                                 } else {
                                   Fluttertoast.showToast(
-                                      msg: 'Vous ne pouvez pas modifier ;)',
+                                      msg:
+                                          'Vous ne pouvez pas modifier un évènement déjà passé ;)',
                                       backgroundColor: Colors.red,
                                       textColor: Colors.white,
                                       gravity: ToastGravity.TOP);

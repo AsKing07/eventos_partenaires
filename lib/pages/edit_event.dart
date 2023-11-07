@@ -4,26 +4,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_state_city_picker/country_state_city_picker.dart';
 import 'package:flutter/material.dart' hide DatePickerTheme;
 import 'package:flutter/cupertino.dart';
-// import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:eventos_partenaires/methods/firebaseAdd.dart';
-import 'package:eventos_partenaires/config/config.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as maps;
 import 'dart:async';
-import 'package:google_maps_place_picker_mb/google_maps_place_picker.dart';
-import 'package:geoflutterfire2/geoflutterfire2.dart';
-import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
-import 'package:geolocator/geolocator.dart';
-
-// import 'package:flutter_icons/flutter_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-// import 'package:latlong2/latlong.dart';
-// import 'package:place_picker/place_picker.dart' as latlng;
-// import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class EditPage extends StatefulWidget {
   final DocumentSnapshot post;
@@ -47,7 +36,7 @@ class MapScreenState extends State<EditPage>
   // GeoFirePoint? firePoint;
   String countryValue = "", stateValue = "", cityValue = "";
   String localisation = '';
-  String city = "Cotonou";
+  String city = "";
 
   TextEditingController eventAddController = TextEditingController();
   TextEditingController ticketPriceController = TextEditingController();
@@ -221,38 +210,6 @@ class MapScreenState extends State<EditPage>
     }
   }
 
-  // void showPlacePicker() async {
-  //   Navigator.push(
-  //     context,
-  //     MaterialPageRoute(
-  //       builder: (context) => PlacePicker(
-  //         apiKey: Platform.isAndroid
-  //             ? 'AIzaSyDMQXRp4mmMw9kx4E_YOVChFyInWdgsKXU' // Votre clé API pour Android
-  //             : "AIzaSyDYKfjtKoVpCTlwiT29ioqflI62gzclKOQ", // Votre clé API pour iOS
-  //         useCurrentLocation: true,
-  //         selectInitialPosition: true,
-  //         onPlacePicked: (result) {
-  //           setState(() {
-  //             city = "${result.formattedAddress}";
-  //             firePoint = geo.point(
-  //               latitude: result.geometry!.location.lat,
-  //               longitude: result.geometry!.location.lng,
-  //             );
-  //           });
-  //           Navigator.of(context).pop();
-  //         },
-  //         initialPosition: EditPage.kInitialPosition,
-  //       ),
-  //     ),
-  //   ).then((value) async {
-  //     final maps.GoogleMapController controller = await _controller.future;
-  //     controller.animateCamera(maps.CameraUpdate.newCameraPosition(
-  //         maps.CameraPosition(
-  //             target: maps.LatLng(firePoint!.latitude, firePoint!.longitude),
-  //             zoom: 15.4746)));
-  //   });
-  // }
-
   @override
   void initState() {
     // TODO: implement initState
@@ -297,7 +254,7 @@ class MapScreenState extends State<EditPage>
     isPaid
         ? ticketPriceController =
             TextEditingController(text: widget.post['ticketPrice'].toString())
-        : {};
+        : ticketPriceController = TextEditingController(text: '0');
     selectedCategory = widget.post["eventCategory"];
     void updateLocation(String? country, String? state, String? city) {
       setState(() {
@@ -579,9 +536,9 @@ class MapScreenState extends State<EditPage>
                                           String pattern =
                                               r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$';
                                           RegExp regex = RegExp(pattern);
-                                          if (!regex.hasMatch(value!))
+                                          if (!regex.hasMatch(value!)) {
                                             return 'Entrer un Email valide';
-                                          else {
+                                          } else {
                                             return null;
                                           }
                                         },
@@ -626,7 +583,7 @@ class MapScreenState extends State<EditPage>
                                   if (picked != null && picked != dateTime) {
                                     dateTime = picked;
                                     dateTimeController.text =
-                                        DateFormat('dd-MM-yyyy  hh:mm a')
+                                        DateFormat('dd-MM-yyyy  hh:mm')
                                             .format(dateTime);
                                   }
                                 },
@@ -652,10 +609,17 @@ class MapScreenState extends State<EditPage>
                                       mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
                                         Text(
-                                          'Addresse',
+                                          'Adresse',
                                           style: TextStyle(
                                               fontSize: 22.0,
                                               fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(
+                                          'Si vous changer un des trois éléments(Pays, Département, Ville), vous devrez également redéfinir les 2 autres!',
+                                          softWrap: true,
+                                          style: TextStyle(
+                                              fontSize: 10.0,
+                                              fontStyle: FontStyle.italic),
                                         ),
                                       ],
                                     ),
@@ -692,77 +656,6 @@ class MapScreenState extends State<EditPage>
                                       ],
                                     ),
                                   )
-                                // Padding(
-                                //     padding: const EdgeInsets.all(20.0),
-                                //     child: Container(
-                                //       height: 200,
-                                //       child: Column(
-                                //         children: [
-                                //           Expanded(
-                                //             child: maps.GoogleMap(
-                                //               onMapCreated:
-                                //                   (maps.GoogleMapController
-                                //                       controller) {
-                                //                 _controller
-                                //                     .complete(controller);
-                                //               },
-                                //               markers: {
-                                //                 maps.Marker(
-                                //                   markerId: const maps.MarkerId(
-                                //                       'marker'),
-                                //                   position: maps.LatLng(
-                                //                       firePoint!.latitude,
-                                //                       firePoint!.longitude),
-                                //                 )
-                                //               },
-                                //               initialCameraPosition:
-                                //                   maps.CameraPosition(
-                                //                       target: maps.LatLng(
-                                //                           firePoint!.latitude,
-                                //                           firePoint!.longitude),
-                                //                       zoom: 15.4746),
-                                //               mapType: maps.MapType.normal,
-                                //             ),
-                                //           ),
-                                //           Container(
-                                //             width: double.infinity,
-                                //             child: !_status
-                                //                 ? ElevatedButton(
-                                //                     style: ElevatedButton
-                                //                         .styleFrom(
-                                //                       primary:
-                                //                           AppColors.primary,
-                                //                       onPrimary: Colors.white,
-                                //                       onSurface:
-                                //                           AppColors.tertiary,
-                                //                     ),
-                                //                     onPressed: () {
-                                //                       showPlacePicker();
-                                //                     },
-                                //                     child: const Row(
-                                //                       children: <Widget>[
-                                //                         Icon(
-                                //                           FontAwesomeIcons.edit,
-                                //                           color: Colors.white,
-                                //                         ),
-                                //                         SizedBox(
-                                //                             width:
-                                //                                 8), // Espacement entre l'icône et le texte
-                                //                         Text(
-                                //                           'Choisir un lieu', // Texte du bouton
-                                //                           style: TextStyle(
-                                //                               color:
-                                //                                   Colors.white),
-                                //                         ),
-                                //                       ],
-                                //                     ),
-                                //                   )
-                                //                 : Container(),
-                                //           )
-                                //         ],
-                                //       ),
-                                //     ),
-                                //   )
                                 : Container(),
                             !isOnline
                                 ? Padding(
@@ -923,7 +816,6 @@ class MapScreenState extends State<EditPage>
                                         controller: hostPhoneController,
                                         keyboardType: TextInputType.number,
                                         decoration: const InputDecoration(
-                                            prefixText: "+229",
                                             hintText:
                                                 "Numéro de téléphone de payement MTN Mobile money"),
                                         enabled: !_status,
@@ -1009,6 +901,8 @@ class MapScreenState extends State<EditPage>
                                                         Navigator.pop(context);
                                                         widget.rebuild();
                                                       });
+                                                    } else {
+                                                      print("erreur: $val");
                                                     }
                                                   });
                                                 }

@@ -51,13 +51,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'EventOs Partenaires',
-      theme: ThemeData(
-        primaryColor: AppColors.primary,
-        brightness: Brightness.light,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        colorScheme:
-            ColorScheme.fromSwatch().copyWith(secondary: AppColors.secondary),
-      ),
+      // theme: ThemeData(
+      //   primaryColor: AppColors.primary,
+      //   brightness: Brightness.light,
+      //   visualDensity: VisualDensity.adaptivePlatformDensity,
+      //   colorScheme:
+      //       ColorScheme.fromSwatch().copyWith(secondary: AppColors.secondary),
+      // ),
       home: HomePage(),
       routes: {
         'login': (context) => Login(),
@@ -73,13 +73,13 @@ class MyApp1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'EventOs Patenaires',
-      theme: ThemeData(
-        primaryColor: AppColors.primary,
-        brightness: Brightness.light,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        colorScheme:
-            ColorScheme.fromSwatch().copyWith(secondary: AppColors.secondary),
-      ),
+      // theme: ThemeData(
+      //   primaryColor: AppColors.primary,
+      //   brightness: Brightness.light,
+      //   visualDensity: VisualDensity.adaptivePlatformDensity,
+      //   colorScheme:
+      //       ColorScheme.fromSwatch().copyWith(secondary: AppColors.secondary),
+      // ),
       home: Login(),
       routes: {
         'login': (context) => Login(),
@@ -95,12 +95,12 @@ class MyApp2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Eventos',
-      theme: ThemeData(
-        primaryColor: AppColors.primary,
-        hintColor: AppColors.secondary,
-        brightness: Brightness.light,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+      // theme: ThemeData(
+      //   primaryColor: AppColors.primary,
+      //   hintColor: AppColors.secondary,
+      //   brightness: Brightness.light,
+      //   visualDensity: VisualDensity.adaptivePlatformDensity,
+      // ),
       home: NotConnectedScreen(),
       routes: {
         'login': (context) => Login(),
@@ -138,7 +138,8 @@ class NotConnectedScreen extends StatelessWidget {
             bottom: 150,
             left: 30,
             child: Text(
-              'S\'il vous plaît, vérifiez votre connexion internet \net réessayer.',
+              'S\'il vous plaît, vérifiez votre connexion internet et réessayer.',
+              softWrap: true,
               style: TextStyle(
                 color: Colors.black38,
                 fontSize: 16,
@@ -166,7 +167,7 @@ class NotConnectedScreen extends StatelessWidget {
                   child: Center(
                       child: Text(
                     'Réessayer'.toUpperCase(),
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                       color: Colors.white,
                       fontWeight: FontWeight.w600,

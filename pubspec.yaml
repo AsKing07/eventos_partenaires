@@ -82,6 +82,7 @@ dependencies:
   country_state_city_picker: ^1.2.8
   connectivity_checker: ^1.1.0
   getwidget: ^4.0.0
+  intl_phone_field: ^3.2.0
 
 
   
