@@ -19,7 +19,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'Pass.dart';
 import 'package:eventos_partenaires/config/config.dart';
 import 'package:readmore/readmore.dart';
-// import 'package:flutter_icons/flutter_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class DetailPage extends StatefulWidget {
@@ -259,8 +258,11 @@ class _DetailPageState extends State<DetailPage> {
                                               widget.post, widget.rebuild)));
                                 } else {
                                   Fluttertoast.showToast(
-                                      msg:
-                                          'Vous ne pouvez pas modifier un évènement déjà passé ;)',
+                                      msg: DateTime.now().isAfter(widget
+                                              .post['eventDateTime']
+                                              .toDate())
+                                          ? 'Vous ne pouvez pas modifier un évènement déjà passé ;)'
+                                          : 'Seul le créateur de l\'évènement peut modifier les détails',
                                       backgroundColor: Colors.red,
                                       textColor: Colors.white,
                                       gravity: ToastGravity.TOP);

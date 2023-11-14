@@ -807,7 +807,8 @@ class _PosterSelectState extends State<PosterSelect> {
   final picker = ImagePicker();
 
   Future getImage() async {
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    final pickedFile =
+        await picker.pickImage(source: ImageSource.gallery, imageQuality: 75);
     if (pickedFile != null) {
       _image = await ImageCropper()
           .cropImage(sourcePath: pickedFile.path, aspectRatioPresets: [
@@ -818,7 +819,7 @@ class _PosterSelectState extends State<PosterSelect> {
         CropAspectRatioPreset.ratio16x9
       ], uiSettings: [
         AndroidUiSettings(
-            toolbarTitle: 'Crop your poster',
+            toolbarTitle: 'Redimensionner votre image',
             toolbarColor: AppColors.tertiary,
             toolbarWidgetColor: AppColors.primary,
             initAspectRatio: CropAspectRatioPreset.original,
@@ -886,7 +887,7 @@ class _PosterSelectState extends State<PosterSelect> {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.only(top: 20),
-                  child: Text('Poster',
+                  child: Text('Image',
                       style: GoogleFonts.cabin(
                         fontWeight: FontWeight.w800,
                         fontSize: 34,
@@ -1408,7 +1409,7 @@ class _TicketInfoState extends State<TicketInfo> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Rendre l\'évènement privé',
+                Text('Evènement privé?',
                     style: GoogleFonts.cabin(
                       fontWeight: FontWeight.w800,
                       fontSize: 34,

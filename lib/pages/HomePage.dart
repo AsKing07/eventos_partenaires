@@ -5,12 +5,10 @@ import 'package:eventos_partenaires/pages/Policy.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart' hide DatePickerTheme;
 import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:flutter_icons/flutter_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:eventos_partenaires/pages/createEvent.dart';
 import 'package:eventos_partenaires/pages/loginui.dart';
 import 'package:eventos_partenaires/methods/getUserId.dart';
@@ -20,7 +18,6 @@ import 'package:eventos_partenaires/Widgets/eventCard.dart';
 import 'package:eventos_partenaires/config/config.dart';
 import 'package:eventos_partenaires/config/size.dart';
 
-import 'package:skeleton_text/skeleton_text.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {

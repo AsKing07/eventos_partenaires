@@ -18,6 +18,7 @@ class ScanPass extends StatefulWidget {
 class _ScanPassState extends State<ScanPass> {
   void scanPass(BuildContext contextMain) async {
     if (widget.isOnline) {}
+    //res représente l'information contenu dans le code QR. Donc le code du PASS
     String res = await FlutterBarcodeScanner.scanBarcode(
         "#ff6666", 'Stop Scan', true, ScanMode.QR);
     final x = await FirebaseFirestore.instance
@@ -53,7 +54,7 @@ class _ScanPassState extends State<ScanPass> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.tertiary,
                     ),
-                    child: const Text('Scan Plus'),
+                    child: const Text('Scanner Plus'),
                   ),
                   ElevatedButton(
                     onPressed: () {
@@ -76,7 +77,7 @@ class _ScanPassState extends State<ScanPass> {
                   children: [
                     Lottie.asset('assets/done.json', repeat: false),
                     const SizedBox(height: 10),
-                    Text("Permettre  ${x['ticketCount']} entrié(s)",
+                    Text("Permettre  ${x['ticketCount']} entrée(s)",
                         style: const TextStyle(
                             color: Colors.greenAccent,
                             fontSize: 18,
@@ -94,7 +95,7 @@ class _ScanPassState extends State<ScanPass> {
                 scrollable: true,
                 title: const Center(
                     child: Text(
-                  "Pass déjà Scanné",
+                  "Pass déjà Scanné(utilisé)",
                   style: TextStyle(
                       color: Colors.red,
                       fontWeight: FontWeight.w700,

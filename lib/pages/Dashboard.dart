@@ -48,8 +48,12 @@ class _DashboardState extends State<Dashboard> {
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      colorCard("Revenu Brut", widget.post['amountEarned'], 1,
-                          context, const Color(0xFF1b5bff)),
+                      colorCard(
+                          "Revenu Brut",
+                          widget.post['amountEarned'].toDouble(),
+                          1,
+                          context,
+                          const Color(0xFF1b5bff)),
                       colorCard(
                           "Revenu Net",
                           widget.post['amountEarned'] * 92 / 100,
