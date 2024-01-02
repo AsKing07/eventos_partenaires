@@ -403,7 +403,8 @@ class _DetailPageState extends State<DetailPage> {
                                 backgroundColor: Colors.amber,
                               ),
                               child: Text(
-                                'Contacter ${snap.data[widget.post['helper']].data()['name']}',
+                                // 'Besoin d\'aide ? ${snap.data[widget.post['helper']].data()['name']}',
+                                'Besoin d\'aide ? ',
                                 style: const TextStyle(
                                     fontSize: 18, color: Colors.black),
                               ),

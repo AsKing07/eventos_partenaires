@@ -1394,8 +1394,7 @@ class _TicketInfoState extends State<TicketInfo> {
                 : Container(),
             isPaid ? const SizedBox(height: 5) : Container(),
             isPaid
-                ? Text(
-                    '*Il s\'agit du montant en FCFA que vous recevrez 24 heures après la fin de l\'événement.',
+                ? Text('*Il s\'agit du montant en FCFA que vous recevrez.',
                     style: GoogleFonts.cabin(
                       fontWeight: FontWeight.w600,
                       fontSize: 18,

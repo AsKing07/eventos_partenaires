@@ -145,7 +145,7 @@ class _ScannedListState extends State<ScannedList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Participants')),
+      appBar: AppBar(title: const Text('Pass Scannés')),
       body: FutureBuilder(
           future: getData(),
           builder: (context, snapshot) {
@@ -159,7 +159,7 @@ class _ScannedListState extends State<ScannedList> {
             } else if (snapshot.hasData) {
               if (snapshot.data.length == 0) {
                 return const Center(
-                  child: Text('Pas encore de participant :('),
+                  child: Text('Pas encore de pass scanné :('),
                 );
               } else {
                 return ListView.builder(
@@ -167,13 +167,13 @@ class _ScannedListState extends State<ScannedList> {
                     itemBuilder: (context, index) {
                       return ListTile(
                         title: Text(
-                          "${snapshot.data[index].data['name']}",
+                          "${snapshot.data[index].data()['name']}",
                         ),
                         trailing: Text(
-                          "X ${snapshot.data[index].data['ticketCount']}",
+                          "X ${snapshot.data[index].data()['ticketCount']}",
                         ),
                         subtitle: Text(
-                            "${snapshot.data[index].data['phone'] ?? snapshot.data[index].data['email']}"),
+                            "${snapshot.data[index].data()['phone'] ?? snapshot.data[index].data()['email']}"),
                       );
                     });
               }
